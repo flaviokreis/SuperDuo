@@ -28,7 +28,6 @@
         android:maxLines="1"
         android:textSize="16sp" />
 
-
     <TextView
         android:id="@+id/listBookSubTitle"
         android:layout_width="fill_parent"
@@ -41,6 +40,5 @@
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/fullBookCover"
         android:layout_toEndOf="@+id/fullBookCover"/>
-
 
 </RelativeLayout>

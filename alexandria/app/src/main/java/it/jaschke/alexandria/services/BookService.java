@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -144,6 +145,13 @@ public class BookService extends IntentService {
 
         }
 
+        if(TextUtils.isEmpty(bookJsonString)){
+            Log.e(LOG_TAG, "The book string json is null or empty.");
+            Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
+            messageIntent.putExtra(MainActivity.MESSAGE_KEY,getResources().getString(R.string.get_book_error));
+            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
+            return;
+        }
         final String ITEMS = "items";
 
         final String VOLUME_INFO = "volumeInfo";
@@ -214,20 +222,25 @@ public class BookService extends IntentService {
     private void writeBackAuthors(String ean, JSONArray jsonArray) throws JSONException {
         ContentValues values= new ContentValues();
         for (int i = 0; i < jsonArray.length(); i++) {
+            String author = jsonArray.getString(i);
+
             values.put(AlexandriaContract.AuthorEntry._ID, ean);
-            values.put(AlexandriaContract.AuthorEntry.AUTHOR, jsonArray.getString(i));
+            values.put(AlexandriaContract.AuthorEntry.AUTHOR, author);
             getContentResolver().insert(AlexandriaContract.AuthorEntry.CONTENT_URI, values);
             values= new ContentValues();
         }
     }
 
     private void writeBackCategories(String ean, JSONArray jsonArray) throws JSONException {
-        ContentValues values= new ContentValues();
+        ContentValues values;
         for (int i = 0; i < jsonArray.length(); i++) {
+            String category = jsonArray.getString(i);
+
+            values = new ContentValues();
             values.put(AlexandriaContract.CategoryEntry._ID, ean);
-            values.put(AlexandriaContract.CategoryEntry.CATEGORY, jsonArray.getString(i));
+            values.put(AlexandriaContract.CategoryEntry.CATEGORY, category);
+
             getContentResolver().insert(AlexandriaContract.CategoryEntry.CONTENT_URI, values);
-            values= new ContentValues();
         }
     }
  }

@@ -4,11 +4,14 @@ package it.jaschke.alexandria.api;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import it.jaschke.alexandria.R;
 import it.jaschke.alexandria.data.AlexandriaContract;
@@ -18,7 +21,6 @@ import it.jaschke.alexandria.services.DownloadImage;
  * Created by saj on 11/01/15.
  */
 public class BookListAdapter extends CursorAdapter {
-
 
     public static class ViewHolder {
         public final ImageView bookCover;
@@ -41,8 +43,18 @@ public class BookListAdapter extends CursorAdapter {
 
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
-        String imgUrl = cursor.getString(cursor.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
-        new DownloadImage(viewHolder.bookCover).execute(imgUrl);
+        String imageUrl = cursor.getString(cursor.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
+        if(TextUtils.isEmpty(imageUrl)){
+            //Prevent overdraw
+            Glide.with(mContext).load(android.R.color.transparent)
+                    .into(viewHolder.bookCover);
+
+            viewHolder.bookCover.setBackgroundResource(android.R.color.holo_blue_dark);
+        }else{
+            Glide.with(mContext).load(imageUrl)
+                    .crossFade()
+                    .into(viewHolder.bookCover);
+        }
 
         String bookTitle = cursor.getString(cursor.getColumnIndex(AlexandriaContract.BookEntry.TITLE));
         viewHolder.bookTitle.setText(bookTitle);

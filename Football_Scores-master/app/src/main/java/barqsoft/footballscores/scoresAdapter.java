@@ -41,7 +41,17 @@ public class ScoresAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
+        if((cursor.getInt(COL_HOME_GOALS) < 0) || (cursor.getInt(COL_AWAY_GOALS) < 0)){
+            view.setContentDescription(cursor.getString(COL_HOME) + " versus " +  cursor.getString(COL_AWAY)
+                    + ". " +  cursor.getString(COL_MATCHTIME) );
+        } else {
+            view.setContentDescription(cursor.getString(COL_HOME) + " " + cursor.getInt(COL_HOME_GOALS)
+                    + ", " + cursor.getString(COL_AWAY) + " " + cursor.getInt(COL_AWAY_GOALS)
+                    + ". " +  cursor.getString(COL_MATCHTIME) );
+        }
+
         final ViewHolder mHolder = (ViewHolder) view.getTag();
+
         mHolder.home_name.setText(cursor.getString(COL_HOME));
         mHolder.away_name.setText(cursor.getString(COL_AWAY));
         mHolder.date.setText(cursor.getString(COL_MATCHTIME));
@@ -57,6 +67,7 @@ public class ScoresAdapter extends CursorAdapter {
         LayoutInflater vi = (LayoutInflater) context.getApplicationContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = vi.inflate(R.layout.detail_fragment, null);
+
         ViewGroup container = (ViewGroup) view.findViewById(R.id.details_fragment_container);
         if (mHolder.match_id == detail_match_id) {
             //Log.v(FetchScoreTask.LOG_TAG,"will insert extraView");

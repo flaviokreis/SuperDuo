@@ -113,20 +113,27 @@ public class WidgetRemoteViewsService extends RemoteViewsService {
                 views.setImageViewResource(R.id.away_crest, Utilies.getTeamCrestByTeamName(
                         data.getString(COL_AWAY)));
 
-//                 mHolder.match_id = cursor.getDouble(COL_ID);
-//                ));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+                    String description;
+                    if((data.getInt(COL_HOME_GOALS) < 0) || (data.getInt(COL_AWAY_GOALS) < 0)){
+                        description = homeName + " versus " +  awayName + ", " + dateTime;
+                    }
+                    else{
+                        description = homeName + " " + data.getInt(COL_HOME_GOALS)
+                                + ", " +  awayName + " " + data.getInt(COL_AWAY_GOALS)
+                                + ". " + dateTime;
+                    }
 
-                final Intent fillInIntent = new Intent();
-
-                views.setOnClickFillInIntent(R.id.widget_list_item, fillInIntent);
+                    setRemoteContentDescription(views, description);
+                }
 
                 return views;
             }
 
-//            @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-//            private void setRemoteContentDescription(RemoteViews views, String description) {
-//                views.setContentDescription(R.id.widget_icon, description);
-//            }
+            @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            private void setRemoteContentDescription(RemoteViews views, String description) {
+                views.setContentDescription(R.id.widget_list_item, description);
+            }
 
             @Override
             public RemoteViews getLoadingView() {

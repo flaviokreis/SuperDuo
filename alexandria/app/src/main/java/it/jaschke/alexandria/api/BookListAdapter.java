@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 
 import it.jaschke.alexandria.R;
 import it.jaschke.alexandria.data.AlexandriaContract;
-import it.jaschke.alexandria.services.DownloadImage;
 
 /**
  * Created by saj on 11/01/15.
@@ -43,12 +42,12 @@ public class BookListAdapter extends CursorAdapter {
 
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
+        //Use Glide to show images
         String imageUrl = cursor.getString(cursor.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
         if(TextUtils.isEmpty(imageUrl)){
             //Prevent overdraw
             Glide.with(mContext).load(android.R.color.transparent)
                     .into(viewHolder.bookCover);
-
             viewHolder.bookCover.setBackgroundResource(android.R.color.holo_blue_dark);
         }else{
             Glide.with(mContext).load(imageUrl)

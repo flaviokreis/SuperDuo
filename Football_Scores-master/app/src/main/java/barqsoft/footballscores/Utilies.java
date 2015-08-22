@@ -15,38 +15,38 @@ public class Utilies {
     public static final int PRIMERA_DIVISION = 358;
     public static final int BUNDESLIGA = 351;
 
-    public static String getLeague(int league_num) {
+    public static String getLeague(Context context, int league_num) {
         switch (league_num) {
             case SERIE_A:
-                return "Seria A";
+                return context.getString(R.string.league_serie_a);
             case PREMIER_LEGAUE:
-                return "Premier League";
+                return context.getString(R.string.league_premier_league);
             case CHAMPIONS_LEAGUE:
-                return "UEFA Champions League";
+                return context.getString(R.string.league_uefa);
             case PRIMERA_DIVISION:
-                return "Primera Division";
+                return context.getString(R.string.league_primera_division);
             case BUNDESLIGA:
-                return "Bundesliga";
+                return context.getString(R.string.league_bundesliga);
             default:
-                return "Not known League Please report";
+                return context.getString(R.string.league_unknown);
         }
     }
 
-    public static String getMatchDay(int match_day, int league_num) {
+    public static String getMatchDay(Context context, int match_day, int league_num) {
         if (league_num == CHAMPIONS_LEAGUE) {
             if (match_day <= 6) {
-                return "Group Stages, Matchday : 6";
+                return context.getString(R.string.match_day_6);
             } else if (match_day == 7 || match_day == 8) {
-                return "First Knockout round";
+                return context.getString(R.string.match_day_8);
             } else if (match_day == 9 || match_day == 10) {
-                return "QuarterFinal";
+                return context.getString(R.string.match_day_10);
             } else if (match_day == 11 || match_day == 12) {
-                return "SemiFinal";
+                return context.getString(R.string.match_day_12);
             } else {
-                return "Final";
+                return context.getString(R.string.match_day_final);
             }
         } else {
-            return "Matchday : " + String.valueOf(match_day);
+            return context.getString(R.string.match_day_other) + String.valueOf(match_day);
         }
     }
 

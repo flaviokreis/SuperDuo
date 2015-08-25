@@ -36,5 +36,6 @@
     <string name="match_day_12">SemiFinal</string>
     <string name="match_day_final">Final</string>
     <string name="match_day_other">Matchday : </string>
+    <string name="share_score_content_description">Share score</string>
 
 </resources>

@@ -125,6 +125,9 @@ public class WidgetRemoteViewsService extends RemoteViewsService {
                     }
 
                     setRemoteContentDescription(views, description);
+
+                    views.setContentDescription(R.id.home_crest, "home crest: " + homeName);
+                    views.setContentDescription(R.id.away_crest, "away crest: " + awayName);
                 }
 
                 return views;
